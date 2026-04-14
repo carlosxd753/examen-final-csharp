@@ -26,7 +26,7 @@ namespace examen_final_csharp.Controllers
         }
 
         // GET: api/socios/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult> GetById(int id)
         {
@@ -49,6 +49,94 @@ namespace examen_final_csharp.Controllers
                 return NotFound(new { mensaje = "no encontrado" });
 
             return Ok(new { mensaje = "actualizado" });
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult> Create(CreateSocioDto dto)
+        {
+            var nuevoSocio = await _service.Create(dto);
+
+            return CreatedAtAction(nameof(GetById), new { id = nuevoSocio.SocioId }, nuevoSocio);
+        }
+
+        [HttpDelete("{id:int}")]
+        [Authorize(Roles = "ADMIN")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var ok = await _service.Delete(id);
+
+            if (!ok)
+                return NotFound(new { mensaje = "no encontrado" });
+
+            return Ok(new { mensaje = "eliminado" });
+        }
+
+        [HttpGet("mis-rutinas")]
+        [Authorize]
+        public async Task<IActionResult> GetMisRutinas()
+        {
+            var userId = User.FindFirst("id")?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { mensaje = "token no contiene id" });
+            }
+
+            Console.WriteLine("User ID from token: " + userId);
+
+            var rutinas = await _service.GetRutinasByUserId(int.Parse(userId));
+
+            if (rutinas == null || !rutinas.Any())
+            {
+                return NotFound(new { mensaje = "no hay rutinas para este usuario" });
+            }
+
+            return Ok(rutinas);
+        }
+
+        [HttpGet("mis-asistencias")]
+        [Authorize]
+        public async Task<IActionResult> GetMisAsistencias()
+        {
+            var userId = User.FindFirst("id")?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { mensaje = "token no contiene id" });
+            }
+
+            Console.WriteLine("User ID from token: " + userId);
+
+            var asistencias = await _service.GetAsistenciasByUserId(int.Parse(userId));
+
+            if (asistencias == null || !asistencias.Any())
+            {
+                return NotFound(new { mensaje = "no hay asistencias para este usuario" });
+            }
+
+            return Ok(asistencias);
+        }
+
+        [HttpGet("mis-socios-asignados")]
+        [Authorize(Roles = "ENTRENADOR")]
+        public async Task<IActionResult> GetMisSociosAsignados()
+        {
+            var userId = User.FindFirst("id")?.Value;
+
+            if (userId == null)
+            {
+                return Unauthorized(new { mensaje = "token no contiene id" });
+            }
+
+            var socios = await _service.GetAssignedSociosByEntrenadorUserId(int.Parse(userId));
+
+            if (socios == null || !socios.Any())
+            {
+                return NotFound(new { mensaje = "no hay socios asignados para este entrenador" });
+            }
+
+            return Ok(socios);
         }
     }
 }

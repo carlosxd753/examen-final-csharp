@@ -22,6 +22,39 @@ namespace examen_final_csharp.Repositories
             return await _context.Socios.FindAsync(id);
         }
 
+        public async Task<Socio?> GetByUserId(int userId)
+        {
+            return await _context.Socios
+                .Include(s => s.Rutinas)
+                .Include(s => s.Asistencia)
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+        }
+
+        public async Task<List<Socio>> GetAssignedSociosByEntrenadorUserId(int entrenadorUserId)
+        {
+            return await _context.Socios
+                .Include(s => s.User)
+                .Include(
+                    s =>
+                        s.Rutinas.Where(
+                            r =>
+                                r.Activa
+                                && r.Entrenador != null
+                                && r.Entrenador.UserId == entrenadorUserId
+                        )
+                )
+                .Where(
+                    s =>
+                        s.Rutinas.Any(
+                            r =>
+                                r.Activa
+                                && r.Entrenador != null
+                                && r.Entrenador.UserId == entrenadorUserId
+                        )
+                )
+                .ToListAsync();
+        }
+
         public async Task Add(Socio socio)
         {
             await _context.Socios.AddAsync(socio);

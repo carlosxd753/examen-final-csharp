@@ -31,6 +31,12 @@ builder.Services
 builder.Services.AddDbContext<GimnasioDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+builder.Services.AddScoped<IAsistenciaService, AsistenciaService>();
+builder.Services.AddScoped<IAsistenciaRepository, AsistenciaRepository>();
+builder.Services.AddScoped<IEntrenadorService, EntrenadorService>();
+builder.Services.AddScoped<IEntrenadorRepository, EntrenadorRepository>();
+builder.Services.AddScoped<IMembresiaService, MembresiaService>();
+builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();
 builder.Services.AddScoped<ISocioService, SocioService>();
 builder.Services.AddScoped<ISocioRepository, SocioRepository>();
 builder.Services.AddScoped<AuthService>();

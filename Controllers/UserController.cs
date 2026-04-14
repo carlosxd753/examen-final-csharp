@@ -5,13 +5,5 @@ namespace examen_final_csharp.Controllers
 {
     [ApiController]
     [Route("api/users")]
-    public class UserController : ControllerBase
-  {
-    [HttpPost]
-    public async Task<IActionResult> Post([FromBody])
-    {
-      
-    }
-
-  }
+    public class UserController : ControllerBase { }
 }

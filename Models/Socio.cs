@@ -29,7 +29,8 @@ public partial class Socio
 
     public virtual ICollection<Rutina> Rutinas { get; set; } = new List<Rutina>();
 
-    public virtual ICollection<SocioMembresium> SocioMembresia { get; set; } = new List<SocioMembresium>();
+    public virtual ICollection<SocioMembresium> SocioMembresia { get; set; } =
+        new List<SocioMembresium>();
 
     public virtual User User { get; set; } = null!;
 }

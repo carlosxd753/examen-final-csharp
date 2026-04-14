@@ -1,0 +1,33 @@
+namespace examen_final_csharp.DTOs
+{
+    public class MembresiaDto
+    {
+        public int MembresiaId { get; set; }
+        public string Nombre { get; set; } = null!;
+        public string? Descripcion { get; set; }
+        public int DuracionDias { get; set; }
+        public decimal Precio { get; set; }
+        public bool EsRenovable { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
+
+    public class CreateMembresiaDto
+    {
+        public string Nombre { get; set; } = null!;
+        public string? Descripcion { get; set; }
+        public int DuracionDias { get; set; }
+        public decimal Precio { get; set; }
+        public bool EsRenovable { get; set; }
+    }
+
+    public class UpdateMembresiaDto
+    {
+        public string Nombre { get; set; } = null!;
+        public string? Descripcion { get; set; }
+        public int DuracionDias { get; set; }
+        public decimal Precio { get; set; }
+        public bool EsRenovable { get; set; }
+        public bool IsActive { get; set; }
+    }
+}

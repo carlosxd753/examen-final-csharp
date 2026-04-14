@@ -35,4 +35,19 @@ namespace examen_final_csharp.DTOs
         public string? EmergenciaTelefono { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class SocioAsignadoDto
+    {
+        public int SocioId { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; } = null!;
+        public string Email { get; set; } = null!;
+        public bool IsActive { get; set; }
+        public int RutinaId { get; set; }
+        public string NombreRutina { get; set; } = null!;
+        public string? ObjetivoRutina { get; set; }
+        public DateOnly FechaInicio { get; set; }
+        public DateOnly? FechaFin { get; set; }
+        public bool RutinaActiva { get; set; }
+    }
 }

@@ -117,5 +117,87 @@ namespace examen_final_csharp.Services
             await _repo.Delete(socio);
             return true;
         }
+
+        public async Task<List<RutinaDto>> GetRutinasByUserId(int userId)
+        {
+            var socio = await _repo.GetByUserId(userId);
+
+            if (socio == null)
+            {
+                return null;
+            }
+
+            return socio.Rutinas
+                .Select(
+                    r =>
+                        new RutinaDto
+                        {
+                            RutinaId = r.RutinaId,
+                            SocioId = r.SocioId,
+                            EntrenadorId = r.EntrenadorId,
+                            Nombre = r.Nombre,
+                            Objetivo = r.Objetivo,
+                            FechaInicio = r.FechaInicio,
+                            FechaFin = r.FechaFin,
+                            Activa = r.Activa,
+                            CreatedAt = r.CreatedAt
+                        }
+                )
+                .ToList();
+        }
+
+        public async Task<List<AsistenciaDto>> GetAsistenciasByUserId(int userId)
+        {
+            var socio = await _repo.GetByUserId(userId);
+
+            if (socio == null)
+                return null;
+
+            return socio.Asistencia
+                .Select(
+                    a =>
+                        new AsistenciaDto
+                        {
+                            AsistenciaId = a.AsistenciaId,
+                            SocioId = a.SocioId,
+                            FechaHoraEntrada = a.FechaHoraEntrada,
+                            FechaHoraSalida = a.FechaHoraSalida,
+                            Observaciones = a.Observaciones,
+                            RegistradaPorUserId = a.RegistradaPorUserId
+                        }
+                )
+                .OrderByDescending(a => a.FechaHoraEntrada)
+                .ToList();
+        }
+
+        public async Task<List<SocioAsignadoDto>> GetAssignedSociosByEntrenadorUserId(int entrenadorUserId)
+        {
+            var socios = await _repo.GetAssignedSociosByEntrenadorUserId(entrenadorUserId);
+
+            return socios
+                .SelectMany(
+                    s =>
+                        s.Rutinas
+                            .Select(
+                                r =>
+                                    new SocioAsignadoDto
+                                    {
+                                        SocioId = s.SocioId,
+                                        UserId = s.UserId,
+                                        UserName = s.User.UserName,
+                                        Email = s.User.Email,
+                                        IsActive = s.IsActive,
+                                        RutinaId = r.RutinaId,
+                                        NombreRutina = r.Nombre,
+                                        ObjetivoRutina = r.Objetivo,
+                                        FechaInicio = r.FechaInicio,
+                                        FechaFin = r.FechaFin,
+                                        RutinaActiva = r.Activa
+                                    }
+                            )
+                )
+                .OrderBy(x => x.UserName)
+                .ToList();
+        }
     }
 }
