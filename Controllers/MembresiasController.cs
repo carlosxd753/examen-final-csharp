@@ -43,12 +43,19 @@ namespace examen_final_csharp.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult> Create(CreateMembresiaDto dto)
         {
-            var nuevaMembresia = await _service.Create(dto);
-            return CreatedAtAction(
-                nameof(GetById),
-                new { id = nuevaMembresia.MembresiaId },
-                nuevaMembresia
-            );
+            try
+            {
+                var nuevaMembresia = await _service.Create(dto);
+                return CreatedAtAction(
+                    nameof(GetById),
+                    new { id = nuevaMembresia.MembresiaId },
+                    nuevaMembresia
+                );
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         // PUT: api/membresias/5
@@ -56,12 +63,19 @@ namespace examen_final_csharp.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<ActionResult> Update(int id, UpdateMembresiaDto dto)
         {
-            var ok = await _service.Update(id, dto);
+            try
+            {
+                var ok = await _service.Update(id, dto);
 
-            if (!ok)
-                return NotFound(new { mensaje = "membresía no encontrada" });
+                if (!ok)
+                    return NotFound(new { mensaje = "membresía no encontrada" });
 
-            return Ok(new { mensaje = "membresía actualizada correctamente" });
+                return Ok(new { mensaje = "membresía actualizada correctamente" });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { mensaje = ex.Message });
+            }
         }
 
         // DELETE: api/membresias/5

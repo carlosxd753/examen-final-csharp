@@ -22,6 +22,17 @@ namespace examen_final_csharp.Repositories
             return await _context.Membresias.FindAsync(id);
         }
 
+        public async Task<bool> ExistsByNombre(string nombre, int? excludeId = null)
+        {
+            var normalizedNombre = nombre.Trim().ToUpper();
+
+            return await _context.Membresias.AnyAsync(
+                m =>
+                    m.Nombre.ToUpper() == normalizedNombre
+                    && (!excludeId.HasValue || m.MembresiaId != excludeId.Value)
+            );
+        }
+
         public async Task Add(Membresia membresia)
         {
             await _context.Membresias.AddAsync(membresia);

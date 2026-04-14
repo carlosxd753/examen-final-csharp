@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("examen-final-csharp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f333e8e5f4205c9bec8c2a7bf41ffef9da101a9d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b2a7517b5c4d5d3b3241f7f807ea559068a01aa6")]
 [assembly: System.Reflection.AssemblyProductAttribute("examen-final-csharp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("examen-final-csharp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

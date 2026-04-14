@@ -6,6 +6,7 @@ namespace examen_final_csharp.Repositories
     {
         Task<List<Membresia>> GetAll();
         Task<Membresia?> GetById(int id);
+        Task<bool> ExistsByNombre(string nombre, int? excludeId = null);
         Task Add(Membresia membresia);
         Task Update(Membresia membresia);
         Task Delete(Membresia membresia);

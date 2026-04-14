@@ -59,6 +59,13 @@ namespace examen_final_csharp.Services
 
         public async Task<MembresiaDto> Create(CreateMembresiaDto dto)
         {
+            var nombreDuplicado = await _repo.ExistsByNombre(dto.Nombre);
+
+            if (nombreDuplicado)
+            {
+                throw new InvalidOperationException("ya existe una membresía con ese nombre");
+            }
+
             var membresia = new Membresia
             {
                 Nombre = dto.Nombre,
@@ -92,6 +99,13 @@ namespace examen_final_csharp.Services
             if (membresia == null)
             {
                 return false;
+            }
+
+            var nombreDuplicado = await _repo.ExistsByNombre(dto.Nombre, id);
+
+            if (nombreDuplicado)
+            {
+                throw new InvalidOperationException("ya existe una membresía con ese nombre");
             }
 
             membresia.Nombre = dto.Nombre;
