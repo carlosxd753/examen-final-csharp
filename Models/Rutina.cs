@@ -25,7 +25,8 @@ public partial class Rutina
 
     public virtual Entrenadore? Entrenador { get; set; }
 
-    public virtual ICollection<RutinaEjercicio> RutinaEjercicios { get; set; } = new List<RutinaEjercicio>();
+    public virtual ICollection<RutinaEjercicio> RutinaEjercicios { get; set; } =
+        new List<RutinaEjercicio>();
 
     public virtual Socio Socio { get; set; } = null!;
 }

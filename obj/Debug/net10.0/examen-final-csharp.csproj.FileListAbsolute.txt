@@ -299,3 +299,5 @@ C:\Users\Rose Eilis\Desktop\Nueva_ carpeta\NuevaCarpeta4\NuevaCarpeta5\projects\
 C:\Users\Rose Eilis\Desktop\Nueva_ carpeta\NuevaCarpeta4\NuevaCarpeta5\projects\C SHARP PROJECTS\examen-final-csharp\bin\Debug\net10.0\temp-build\examen-final-csharp.deps.json
 C:\Users\Rose Eilis\Desktop\Nueva_ carpeta\NuevaCarpeta4\NuevaCarpeta5\projects\C SHARP PROJECTS\examen-final-csharp\bin\Debug\net10.0\temp-build\examen-final-csharp.runtimeconfig.json
 C:\Users\Rose Eilis\Desktop\Nueva_ carpeta\NuevaCarpeta4\NuevaCarpeta5\projects\C SHARP PROJECTS\examen-final-csharp\bin\Debug\net10.0\temp-build\examen-final-csharp.staticwebassets.endpoints.json
+C:\Users\Rose Eilis\Desktop\Nueva_ carpeta\NuevaCarpeta4\NuevaCarpeta5\projects\C SHARP PROJECTS\examen-final-csharp\temp-build\BCrypt.Net-Next.dll
+C:\Users\Rose Eilis\Desktop\Nueva_ carpeta\NuevaCarpeta4\NuevaCarpeta5\projects\C SHARP PROJECTS\examen-final-csharp\bin\Debug\net10.0\BCrypt.Net-Next.dll

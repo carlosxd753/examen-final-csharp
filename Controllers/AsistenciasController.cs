@@ -34,8 +34,7 @@ namespace examen_final_csharp.Controllers
                 return BadRequest(
                     new
                     {
-                        mensaje =
-                            "el socio no existe, ya tiene una asistencia abierta o no está asignado a este entrenador"
+                        mensaje = "el socio no existe, ya tiene una asistencia abierta o no está asignado a este entrenador"
                     }
                 );
             }
@@ -61,8 +60,7 @@ namespace examen_final_csharp.Controllers
                 return BadRequest(
                     new
                     {
-                        mensaje =
-                            "la asistencia no existe, ya tiene salida registrada o el socio no está asignado a este entrenador"
+                        mensaje = "la asistencia no existe, ya tiene salida registrada o el socio no está asignado a este entrenador"
                     }
                 );
             }

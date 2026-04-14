@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using BCrypt.Net;
 
 namespace examen_final_csharp.Services
 {
@@ -28,11 +29,9 @@ namespace examen_final_csharp.Services
             if (user == null || !user.IsActive)
                 return null;
 
-            // VALIDACION CORRECTA (si no usas hash real, deja esto temporal)
-            if (user.PasswordHash != password)
+            if (!BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
                 return null;
 
-            // claims cortos (mejor)
             var claims = new List<Claim>
             {
                 new Claim("id", user.UserId.ToString()),
@@ -56,7 +55,6 @@ namespace examen_final_csharp.Services
                 signingCredentials: creds
             );
 
-            // opcional: actualizar ultimo login
             user.LastLoginAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
 

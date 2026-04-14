@@ -39,6 +39,7 @@ builder.Services.AddScoped<IMembresiaService, MembresiaService>();
 builder.Services.AddScoped<IMembresiaRepository, MembresiaRepository>();
 builder.Services.AddScoped<ISocioService, SocioService>();
 builder.Services.AddScoped<ISocioRepository, SocioRepository>();
+builder.Services.AddScoped<IUserAdminService, UserAdminService>();
 builder.Services.AddScoped<AuthService>();
 var app = builder.Build();
 

@@ -6,14 +6,10 @@ namespace examen_final_csharp.Models;
 
 public partial class GimnasioDbContext : DbContext
 {
-    public GimnasioDbContext()
-    {
-    }
+    public GimnasioDbContext() { }
 
     public GimnasioDbContext(DbContextOptions<GimnasioDbContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public virtual DbSet<Asistencia> Asistencias { get; set; }
 
@@ -41,7 +37,10 @@ public partial class GimnasioDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost;Database=GimnasioDB;Trusted_Connection=True;TrustServerCertificate=True;");
+        =>
+        optionsBuilder.UseSqlServer(
+            "Server=localhost;Database=GimnasioDB;Trusted_Connection=True;TrustServerCertificate=True;"
+        );
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -49,17 +48,24 @@ public partial class GimnasioDbContext : DbContext
         {
             entity.HasKey(e => e.AsistenciaId).HasName("PK__Asistenc__72710FA509FDEC4E");
 
-            entity.HasIndex(e => new { e.SocioId, e.FechaHoraEntrada }, "IX_Asistencias_Socio_Fecha");
+            entity.HasIndex(
+                e => new { e.SocioId, e.FechaHoraEntrada },
+                "IX_Asistencias_Socio_Fecha"
+            );
 
             entity.Property(e => e.FechaHoraEntrada).HasPrecision(0);
             entity.Property(e => e.FechaHoraSalida).HasPrecision(0);
             entity.Property(e => e.Observaciones).HasMaxLength(300);
 
-            entity.HasOne(d => d.RegistradaPorUser).WithMany(p => p.Asistencia)
+            entity
+                .HasOne(d => d.RegistradaPorUser)
+                .WithMany(p => p.Asistencia)
                 .HasForeignKey(d => d.RegistradaPorUserId)
                 .HasConstraintName("FK_Asistencias_UsuarioReg");
 
-            entity.HasOne(d => d.Socio).WithMany(p => p.Asistencia)
+            entity
+                .HasOne(d => d.Socio)
+                .WithMany(p => p.Asistencia)
                 .HasForeignKey(d => d.SocioId)
                 .HasConstraintName("FK_Asistencias_Socio");
         });
@@ -84,10 +90,17 @@ public partial class GimnasioDbContext : DbContext
 
             entity.Property(e => e.Certificaciones).HasMaxLength(250);
             entity.Property(e => e.Especialidad).HasMaxLength(120);
-            entity.Property(e => e.FechaIngreso).HasDefaultValueSql("(CONVERT([date],sysdatetime()))", "DF_Entrenadores_FechaIngreso");
+            entity
+                .Property(e => e.FechaIngreso)
+                .HasDefaultValueSql(
+                    "(CONVERT([date],sysdatetime()))",
+                    "DF_Entrenadores_FechaIngreso"
+                );
             entity.Property(e => e.IsActive).HasDefaultValue(true, "DF_Entrenadores_IsActive");
 
-            entity.HasOne(d => d.User).WithOne(p => p.Entrenadore)
+            entity
+                .HasOne(d => d.User)
+                .WithOne(p => p.Entrenadore)
                 .HasForeignKey<Entrenadore>(d => d.UserId)
                 .HasConstraintName("FK_Entrenadores_User");
         });
@@ -98,7 +111,8 @@ public partial class GimnasioDbContext : DbContext
 
             entity.HasIndex(e => e.Nombre, "UQ_Membresias_Nombre").IsUnique();
 
-            entity.Property(e => e.CreatedAt)
+            entity
+                .Property(e => e.CreatedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())", "DF_Membresias_CreatedAt");
             entity.Property(e => e.Descripcion).HasMaxLength(300);
@@ -116,7 +130,8 @@ public partial class GimnasioDbContext : DbContext
 
             entity.HasIndex(e => e.NormalizedName, "UQ_Roles_NormalizedName").IsUnique();
 
-            entity.Property(e => e.CreatedAt)
+            entity
+                .Property(e => e.CreatedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())", "DF_Roles_CreatedAt");
             entity.Property(e => e.IsActive).HasDefaultValue(true, "DF_Roles_IsActive");
@@ -131,36 +146,49 @@ public partial class GimnasioDbContext : DbContext
             entity.HasIndex(e => new { e.SocioId, e.Activa }, "IX_Rutinas_Socio_Activa");
 
             entity.Property(e => e.Activa).HasDefaultValue(true, "DF_Rutinas_Activa");
-            entity.Property(e => e.CreatedAt)
+            entity
+                .Property(e => e.CreatedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())", "DF_Rutinas_CreatedAt");
-            entity.Property(e => e.FechaInicio).HasDefaultValueSql("(CONVERT([date],sysdatetime()))", "DF_Rutinas_FechaInicio");
+            entity
+                .Property(e => e.FechaInicio)
+                .HasDefaultValueSql("(CONVERT([date],sysdatetime()))", "DF_Rutinas_FechaInicio");
             entity.Property(e => e.Nombre).HasMaxLength(120);
             entity.Property(e => e.Objetivo).HasMaxLength(300);
 
-            entity.HasOne(d => d.Entrenador).WithMany(p => p.Rutinas)
+            entity
+                .HasOne(d => d.Entrenador)
+                .WithMany(p => p.Rutinas)
                 .HasForeignKey(d => d.EntrenadorId)
                 .HasConstraintName("FK_Rutinas_Entr");
 
-            entity.HasOne(d => d.Socio).WithMany(p => p.Rutinas)
+            entity
+                .HasOne(d => d.Socio)
+                .WithMany(p => p.Rutinas)
                 .HasForeignKey(d => d.SocioId)
                 .HasConstraintName("FK_Rutinas_Socio");
         });
 
         modelBuilder.Entity<RutinaEjercicio>(entity =>
         {
-            entity.HasKey(e => new { e.RutinaId, e.EjercicioId }).HasName("PK__RutinaEj__EF7C341EFE4CCCC8");
+            entity
+                .HasKey(e => new { e.RutinaId, e.EjercicioId })
+                .HasName("PK__RutinaEj__EF7C341EFE4CCCC8");
 
             entity.HasIndex(e => new { e.RutinaId, e.Orden }, "IX_RutinaEjercicios_Rutina_Orden");
 
             entity.Property(e => e.Notas).HasMaxLength(250);
             entity.Property(e => e.PesoObjetivoKg).HasColumnType("decimal(6, 2)");
 
-            entity.HasOne(d => d.Ejercicio).WithMany(p => p.RutinaEjercicios)
+            entity
+                .HasOne(d => d.Ejercicio)
+                .WithMany(p => p.RutinaEjercicios)
                 .HasForeignKey(d => d.EjercicioId)
                 .HasConstraintName("FK_RutinaEj_Ejercicio");
 
-            entity.HasOne(d => d.Rutina).WithMany(p => p.RutinaEjercicios)
+            entity
+                .HasOne(d => d.Rutina)
+                .WithMany(p => p.RutinaEjercicios)
                 .HasForeignKey(d => d.RutinaId)
                 .HasConstraintName("FK_RutinaEj_Rutina");
         });
@@ -174,15 +202,16 @@ public partial class GimnasioDbContext : DbContext
             entity.Property(e => e.AlturaCm).HasColumnType("decimal(5, 2)");
             entity.Property(e => e.EmergenciaNombre).HasMaxLength(120);
             entity.Property(e => e.EmergenciaTelefono).HasMaxLength(25);
-            entity.Property(e => e.FechaRegistro).HasDefaultValueSql("(CONVERT([date],sysdatetime()))", "DF_Socios_FechaRegistro");
-            entity.Property(e => e.Genero)
-                .HasMaxLength(1)
-                .IsUnicode(false)
-                .IsFixedLength();
+            entity
+                .Property(e => e.FechaRegistro)
+                .HasDefaultValueSql("(CONVERT([date],sysdatetime()))", "DF_Socios_FechaRegistro");
+            entity.Property(e => e.Genero).HasMaxLength(1).IsUnicode(false).IsFixedLength();
             entity.Property(e => e.IsActive).HasDefaultValue(true, "DF_Socios_IsActive");
             entity.Property(e => e.PesoKg).HasColumnType("decimal(6, 2)");
 
-            entity.HasOne(d => d.User).WithOne(p => p.Socio)
+            entity
+                .HasOne(d => d.User)
+                .WithOne(p => p.Socio)
                 .HasForeignKey<Socio>(d => d.UserId)
                 .HasConstraintName("FK_Socios_User");
         });
@@ -195,21 +224,24 @@ public partial class GimnasioDbContext : DbContext
 
             entity.HasIndex(e => e.SocioId, "IX_SocioMembresia_Socio");
 
-            entity.Property(e => e.CreatedAt)
+            entity
+                .Property(e => e.CreatedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())", "DF_SocioMembresia_CreatedAt");
-            entity.Property(e => e.Estado)
-                .HasMaxLength(20)
-                .IsUnicode(false);
+            entity.Property(e => e.Estado).HasMaxLength(20).IsUnicode(false);
             entity.Property(e => e.MontoPagado).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.Notas).HasMaxLength(300);
 
-            entity.HasOne(d => d.Membresia).WithMany(p => p.SocioMembresia)
+            entity
+                .HasOne(d => d.Membresia)
+                .WithMany(p => p.SocioMembresia)
                 .HasForeignKey(d => d.MembresiaId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_SocioMembresia_Membresia");
 
-            entity.HasOne(d => d.Socio).WithMany(p => p.SocioMembresia)
+            entity
+                .HasOne(d => d.Socio)
+                .WithMany(p => p.SocioMembresia)
                 .HasForeignKey(d => d.SocioId)
                 .HasConstraintName("FK_SocioMembresia_Socio");
         });
@@ -226,7 +258,8 @@ public partial class GimnasioDbContext : DbContext
 
             entity.HasIndex(e => e.UserName, "UQ_Users_UserName").IsUnique();
 
-            entity.Property(e => e.CreatedAt)
+            entity
+                .Property(e => e.CreatedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())", "DF_Users_CreatedAt");
             entity.Property(e => e.Email).HasMaxLength(256);
@@ -242,32 +275,35 @@ public partial class GimnasioDbContext : DbContext
 
         modelBuilder.Entity<UserRole>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.RoleId }).HasName("PK__UserRole__AF2760AD968CE2CF");
+            entity
+                .HasKey(e => new { e.UserId, e.RoleId })
+                .HasName("PK__UserRole__AF2760AD968CE2CF");
 
             entity.HasIndex(e => e.RoleId, "IX_UserRoles_RoleId");
 
-            entity.Property(e => e.AssignedAt)
+            entity
+                .Property(e => e.AssignedAt)
                 .HasPrecision(0)
                 .HasDefaultValueSql("(sysdatetime())", "DF_UserRoles_AssignedAt");
 
-            entity.HasOne(d => d.Role).WithMany(p => p.UserRoles)
+            entity
+                .HasOne(d => d.Role)
+                .WithMany(p => p.UserRoles)
                 .HasForeignKey(d => d.RoleId)
                 .HasConstraintName("FK_UserRoles_Role");
 
-            entity.HasOne(d => d.User).WithMany(p => p.UserRoles)
+            entity
+                .HasOne(d => d.User)
+                .WithMany(p => p.UserRoles)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("FK_UserRoles_User");
         });
 
         modelBuilder.Entity<VSocioUltimaMembresium>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToView("vSocioUltimaMembresia");
+            entity.HasNoKey().ToView("vSocioUltimaMembresia");
 
-            entity.Property(e => e.Estado)
-                .HasMaxLength(20)
-                .IsUnicode(false);
+            entity.Property(e => e.Estado).HasMaxLength(20).IsUnicode(false);
             entity.Property(e => e.Membresia).HasMaxLength(100);
         });
 

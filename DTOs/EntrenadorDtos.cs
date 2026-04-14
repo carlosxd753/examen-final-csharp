@@ -15,7 +15,6 @@ namespace examen_final_csharp.DTOs
         public int UserId { get; set; }
         public string? Especialidad { get; set; }
         public string? Certificaciones { get; set; }
-        // La FechaIngreso se suele asignar automáticamente en el servicio
     }
 
     public class UpdateEntrenadorDto

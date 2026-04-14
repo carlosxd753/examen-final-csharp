@@ -21,5 +21,6 @@ public partial class Membresia
 
     public DateTime CreatedAt { get; set; }
 
-    public virtual ICollection<SocioMembresium> SocioMembresia { get; set; } = new List<SocioMembresium>();
+    public virtual ICollection<SocioMembresium> SocioMembresia { get; set; } =
+        new List<SocioMembresium>();
 }
